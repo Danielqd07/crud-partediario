@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header" class="site-header">
+    <div class="container header-content">
+        <a class="brand" th:href="@{/partes}" th:text="#{app.title}">Gestión de Partes Diarios</a>
+        <nav class="nav">
+            <a th:href="@{/partes}" th:text="#{nav.partes}">Partes diarios</a>
+            <a th:href="@{''(lang='es')}" th:text="#{nav.spanish}">Español</a>
+            <a th:href="@{''(lang='en')}" th:text="#{nav.english}">English</a>
+        </nav>
+    </div>
+</header>
+</body>
+</html>

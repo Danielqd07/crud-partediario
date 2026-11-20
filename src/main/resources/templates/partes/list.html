@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{parte.list.title}">Listado de partes diarios</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="container main-content">
+    <div class="page-heading">
+        <div>
+            <h1 th:text="#{parte.list.title}">Listado de partes diarios</h1>
+            <p>CRUD con relación Encargado 1:N ParteDiario</p>
+        </div>
+        <a class="button primary" th:href="@{/partes/nuevo}" th:text="#{parte.action.create}">Crear parte diario</a>
+    </div>
+
+    <div th:if="${successMessage}" class="alert success" th:text="${successMessage}"></div>
+
+    <div class="table-wrapper" th:if="${!#lists.isEmpty(partes)}">
+        <table>
+            <thead>
+            <tr>
+                <th th:text="#{parte.field.id}">ID</th>
+                <th th:text="#{parte.field.fecha}">Fecha</th>
+                <th th:text="#{parte.field.estado}">Estado</th>
+                <th th:text="#{parte.field.encargado}">Encargado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="parte : ${partes}">
+                <td th:text="${parte.id}">1</td>
+                <td th:text="${#temporals.format(parte.fecha, 'dd/MM/yyyy')}">17/11/2026</td>
+                <td><span class="badge" th:text="${parte.estado}">PENDIENTE</span></td>
+                <td th:text="${parte.encargadoNombre}">Daniel García</td>
+                <td class="actions">
+                    <a class="button small" th:href="@{/partes/{id}(id=${parte.id})}" th:text="#{parte.action.detail}">Ver</a>
+                    <a class="button small secondary" th:href="@{/partes/{id}/editar(id=${parte.id})}" th:text="#{parte.action.edit}">Editar</a>
+                    <form th:action="@{/partes/{id}/eliminar(id=${parte.id})}" method="post" class="inline-form"
+                          onsubmit="return confirm('¿Seguro que quieres eliminar este parte diario?');">
+                        <button class="button small danger" type="submit" th:text="#{parte.action.delete}">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(partes)}">
+        <p th:text="#{empty.partes}">No hay partes diarios registrados.</p>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${modoEdicion} ? #{parte.edit.title} : #{parte.create.title}">Parte diario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="container main-content">
+    <h1 th:text="${modoEdicion} ? #{parte.edit.title} : #{parte.create.title}">Parte diario</h1>
+
+    <form class="card form-card" th:object="${parteDiario}"
+          th:action="${modoEdicion} ? @{/partes/{id}/editar(id=${parteDiario.id})} : @{/partes/nuevo}" method="post">
+
+        <div class="alert error" th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="fecha" th:text="#{parte.field.fecha}">Fecha</label>
+            <input id="fecha" type="date" th:field="*{fecha}">
+            <p class="field-error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="textoDictado" th:text="#{parte.field.textoDictado}">Texto dictado</label>
+            <textarea id="textoDictado" rows="6" maxlength="500" th:field="*{textoDictado}"></textarea>
+            <p class="field-error" th:if="${#fields.hasErrors('textoDictado')}" th:errors="*{textoDictado}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="estado" th:text="#{parte.field.estado}">Estado</label>
+            <select id="estado" th:field="*{estado}">
+                <option value="" th:text="#{form.select.estado}">Seleccione un estado</option>
+                <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
+            </select>
+            <p class="field-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="encargadoId" th:text="#{parte.field.encargado}">Encargado</label>
+            <select id="encargadoId" th:field="*{encargadoId}">
+                <option value="" th:text="#{form.select.encargado}">Seleccione un encargado</option>
+                <option th:each="encargado : ${encargados}" th:value="${encargado.id}" th:text="${encargado.nombre}"></option>
+            </select>
+            <p class="field-error" th:if="${#fields.hasErrors('encargadoId')}" th:errors="*{encargadoId}"></p>
+        </div>
+
+        <div class="form-actions">
+            <button class="button primary" type="submit" th:text="#{parte.action.save}">Guardar</button>
+            <a class="button secondary" th:href="@{/partes}" th:text="#{parte.action.cancel}">Cancelar</a>
+        </div>
+    </form>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

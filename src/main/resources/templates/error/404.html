@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recurso no encontrado</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="container main-content">
+    <section class="card error-page">
+        <h1>Recurso no encontrado</h1>
+        <p th:text="${errorMessage}">No se ha encontrado el recurso solicitado.</p>
+        <a class="button primary" th:href="@{/partes}">Volver al listado</a>
+    </section>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
